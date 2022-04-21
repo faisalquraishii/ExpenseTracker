@@ -6,16 +6,45 @@ import 'package:intl/intl.dart';
 class NewTransaction extends StatefulWidget {
   final addTx;
 
-  NewTransaction(this.addTx);
+  NewTransaction(this.addTx){
+    print('Constructor NewTransaction Widget');
+  }
 
   @override
-  State<NewTransaction> createState() => _NewTransactionState();
+  State<NewTransaction> createState() {
+    print('createState NewTransaction Widget');
+    return _NewTransactionState();
+    }
 }
 
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    print('initState()');
+    
+  }
+  
+  @override
+  void didUpdateWidget (NewTransaction oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print('didUpdateWidget()');
+    
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('dispose()');
+  }
+
+  _NewTransactionState() {
+    print('Constructor NewTransaction State');
+    }
 
   void _submitData() {
     final enteredTitle = _titleController.text;
@@ -53,57 +82,66 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          // ignore: prefer_const_literals_to_create_immutables
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: 'Title'),
-              controller: _titleController,
-              onSubmitted: (_) => _submitData(),
-              // onChanged: (val) {
-              //   titleInput = val;
-              // },
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Amount'),
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
-              // onChanged: (val) => amountInput = val,
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                children: [
-                  // ignore: unnecessary_null_comparison
-                  Expanded(
-                    child: Text(
-                      _selectedDate == null
-                          ? 'No Date Chosen!'
-                          : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  FlatButton(
-                    textColor: Colors.purple,
-                    child: Text('Choose Date', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                    onPressed: _presentDatePicker,
-                  )
-                ],
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            // ignore: prefer_const_literals_to_create_immutables
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: 'Title'),
+                controller: _titleController,
+                onSubmitted: (_) => _submitData(),
+                // onChanged: (val) {
+                //   titleInput = val;
+                // },
               ),
-            ),
-            RaisedButton(
-              child: Text('Add Transaction', style: TextStyle(fontSize: 16)),
-              color: Colors.purple,
-              textColor: Colors.white,
-              onPressed: _submitData,
-            )
-          ],
+              TextField(
+                decoration: InputDecoration(labelText: 'Amount'),
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitData(),
+                // onChanged: (val) => amountInput = val,
+              ),
+              Container(
+                height: 70,
+                child: Row(
+                  children: [
+                    // ignore: unnecessary_null_comparison
+                    Expanded(
+                      child: Text(
+                        _selectedDate == null
+                            ? 'No Date Chosen!'
+                            : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    FlatButton(
+                      textColor: Colors.purple,
+                      child: Text('Choose Date',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      onPressed: _presentDatePicker,
+                    )
+                  ],
+                ),
+              ),
+              RaisedButton(
+                child: Text('Add Transaction', style: TextStyle(fontSize: 16)),
+                color: Colors.purple,
+                textColor: Colors.white,
+                onPressed: _submitData,
+              )
+            ],
+          ),
         ),
       ),
     );
